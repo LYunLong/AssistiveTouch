@@ -1,0 +1,10 @@
+
+.assistive-touch{
+    position: fixed;
+    height: 100px;
+    width: 100px;
+    text-align: center;
+    line-height: 100px;
+    color: white;
+    background-color: blueviolet;
+}
