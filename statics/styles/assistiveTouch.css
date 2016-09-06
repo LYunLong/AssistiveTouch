@@ -1,19 +1,24 @@
 
-.assistive-touch{
-    position: fixed;
-    height: 100px;
-    width: 100px;
-    text-align: center;
-    line-height: 100px;
-    color: white;
-    background-color: blueviolet;
+/*----------     Assistive Touch content area  -------------------*/
+.assistive-touch-content{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top:0;
+    left: 0;
+    background-origin: border-box;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
 }
+
+/*----------     Assistive Touch close Btn  -------------------*/
 .assistive-touch-close-btn{
     position: absolute;
-    height: 15px;
-    width: 15px;
+    height: 16px;
+    width: 16px;
     text-align: center;
-    line-height: 15px;
+    line-height: 16px;
     font-size: 12px;
     color: #000;
     right: 0;

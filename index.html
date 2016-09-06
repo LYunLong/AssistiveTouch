@@ -7,18 +7,22 @@
     <script src="statics/scripts/jquery-1.10.1.min.js"></script>
     <script src="statics/scripts/assistiveTouch.js"></script>
     <link href="statics/styles/assistiveTouch.css" rel="stylesheet">
+    <style>
+        .test-at1{
+            height: 100px;
+            width: 100px;
+        }
+    </style>
 </head>
 <body>
-    <div class="assistive-touch">
-    </div>
+    <div class="test-at1"></div>
     <script>
-        var at = assistiveTouch({
-            atClass:".assistive-touch",
-            imgUrl:"",
+        assistiveTouch({
+            atClass:".test-at1",
+            imgUrl:"statics/images/Photoshop.png",
             closeBtn:true
-        },function(self){
-//            $(self).html("我被点击了");
-//            console.info(arguments[0].innerHTML);
+        },function(content,self){
+            $(content).html("I've been Clicked");
         })
     </script>
 </body>
