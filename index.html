@@ -9,10 +9,15 @@
     <link href="statics/styles/assistiveTouch.css" rel="stylesheet">
 </head>
 <body>
-    <div class="assistive-touch"></div>
+    <div class="assistive-touch">
+    </div>
     <script>
-        var at = assistiveTouch(".assistive-touch",function(self){
-            $(self).html("我被点击了");
+        var at = assistiveTouch({
+            atClass:".assistive-touch",
+            imgUrl:"",
+            closeBtn:true
+        },function(self){
+//            $(self).html("我被点击了");
 //            console.info(arguments[0].innerHTML);
         })
     </script>

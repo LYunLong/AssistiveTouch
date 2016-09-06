@@ -20,7 +20,15 @@ function mousePosition(ev){                    //获取点击||触摸位置
         y:ev.clientY + document.body.scrollTop - document.body.clientTop
     };
 }
-var assistiveTouch = function(atClass,clickFunc){
+var assistiveTouch = function(sets,clickFunc){
+    var atClass = (sets.atClass)?sets.atClass:"",
+        imgUrl = (sets.imgUrl)?sets.imgUrl:"",
+        closeBtn = (sets.closeBtn)?sets.closeBtn:false;
+
+    if(closeBtn){
+        $(atClass).append('<div class="assistive-touch-close-btn">×</div>');
+    }
+    $(".assistive-touch-close-btn").on(" click mouseup touchend",function(){$(atClass).hide();});
 
     $(atClass).on("mousedown touchstart",function(e){
         var e = e||window.event;
@@ -31,7 +39,7 @@ var assistiveTouch = function(atClass,clickFunc){
         $(this).attr("offset-top",mousePos.y-$(this)[0].offsetTop);
         $(this).attr("origin-left",mousePos.x);
         $(this).attr("origin-top",mousePos.y);
-        $(this).html((mousePos.x-$(this).attr("offset-left"))+":"+(mousePos.y-$(this).attr("offset-top")));
+        // $(this).html((mousePos.x-$(this).attr("offset-left"))+":"+(mousePos.y-$(this).attr("offset-top")));
     });
     $(atClass).on("mousemove touchmove",function(e){
         if($(this).attr("moving")!="true")return;
@@ -40,7 +48,7 @@ var assistiveTouch = function(atClass,clickFunc){
         var mousePos = mousePosition(e);
         $(this)[0].style.left = (mousePos.x-$(this).attr("offset-left"))+"px";
         $(this)[0].style.top = (mousePos.y-$(this).attr("offset-top"))+"px";
-        $(this).html((mousePos.x-$(this).attr("offset-left"))+":"+(mousePos.y-$(this).attr("offset-top")));
+        // $(this).html((mousePos.x-$(this).attr("offset-left"))+":"+(mousePos.y-$(this).attr("offset-top")));
     });
     $(atClass).on("mouseup touchend",function(e){
         var e = e||window.event;
@@ -55,7 +63,7 @@ var assistiveTouch = function(atClass,clickFunc){
         if(Math.abs(mousePos.x-$(this).attr("origin-left"))<=5||Math.abs(mousePos.y-$(this).attr("origin-top"))<=5){
             $(this)[0].style.left = ($(this).attr("origin-left")-$(this).attr("offset-left"))+"px";
             $(this)[0].style.top = ($(this).attr("origin-top")-$(this).attr("offset-top"))+"px";
-            $(this).click(function(){
+            $(this).click(function(e){
                 clickFunc($(this)[0]);
             });
             $(this).click();
