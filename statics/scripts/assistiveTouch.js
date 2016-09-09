@@ -36,7 +36,10 @@ var assistiveTouch = function(sets,clickFunc){                  //控件对象�
     if(closeBtn){
         $(atClass).append('<div class="assistive-touch-close-btn">×</div>');
     }
-    $(".assistive-touch-close-btn").on(" click mouseup touchend",function(){$(atClass).hide();});
+    $(".assistive-touch-close-btn").on(" click mouseup touchend",function(e){
+        window.event? window.event.cancelBubble = true : e.stopPropagation();
+        $(atClass).hide();
+    });
 
 
 
