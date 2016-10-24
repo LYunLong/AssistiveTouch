@@ -1,6 +1,7 @@
 
 /*----------     Assistive Touch content area  -------------------*/
 .assistive-touch-content{
+    cursor: -webkit-grab;
     position: absolute;
     height: 100%;
     width: 100%;
@@ -14,6 +15,7 @@
 
 /*----------     Assistive Touch close Btn  -------------------*/
 .assistive-touch-close-btn{
+    cursor: pointer;
     position: absolute;
     height: 16px;
     width: 16px;

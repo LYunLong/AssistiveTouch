@@ -23,10 +23,12 @@ function mousePosition(ev){                    //获取点击||触摸位置
 var assistiveTouch = function(sets,clickFunc){                  //控件对象本身
     var atClass = (sets.atClass)?sets.atClass:"",
         imgUrl = (sets.imgUrl)?sets.imgUrl:"",
-        closeBtn = (sets.closeBtn)?sets.closeBtn:false;
+        closeBtn = (sets.closeBtn)?sets.closeBtn:false,
+        autoSide = (sets.autoSide)?sets.autoSide:false;
 
     $(atClass).css("position","fixed");
     $(atClass).css("z-index","100");
+    // $(atClass).css("cursor","grab");
     $(atClass).append('<div class="assistive-touch-content"></div>');
 
     if(imgUrl){
@@ -93,6 +95,21 @@ var assistiveTouch = function(sets,clickFunc){                  //控件对象�
         if(($(this)[0].offsetLeft+$(this)[0].offsetWidth)>windowWidth){
             $(this)[0].style.left = (windowWidth - $(this)[0].offsetWidth)+"px";
         }
+
+        if (!autoSide)return;
+        if($(this)[0].offsetTop<windowHeight/10){
+            $(this).animate({top:"0px"},200);
+            return;
+        }else if($(this)[0].offsetTop+$(this)[0].offsetHeight>windowHeight/10*9){
+            $(this).animate({top:(windowHeight-$(this)[0].offsetHeight)+"px"},200);
+            return;
+        }
+        if($(this)[0].offsetLeft+($(this)[0].offsetWidth/2)<=windowWidth/2){
+            $(this).animate({left:"0px"},200);
+        }else {
+            $(this).animate({left:(windowWidth-$(this)[0].offsetWidth)+"px"},200);
+        }
+
     });
     return $(atClass);
 }
