@@ -28,17 +28,10 @@ var assistiveTouch = function(sets,clickFunc){                  //控件对象�
 
     $(atClass).css("position","fixed");
     $(atClass).css("z-index","100");
-    // $(atClass).css("cursor","grab");
     $(atClass).append('<div class="assistive-touch-content"></div>');
-
-    if(imgUrl){
-        $(".assistive-touch-content").css("background-image","url('"+imgUrl+"')");
-    }
-
-    if(closeBtn){
-        $(atClass).append('<div class="assistive-touch-close-btn">×</div>');
-    }
-    $(".assistive-touch-close-btn").on(" click mouseup touchend",function(e){
+    if(imgUrl){$(".assistive-touch-content").css("background-image","url('"+imgUrl+"')");}
+    if(closeBtn){$(atClass).append('<div class="assistive-touch-close-btn">×</div>');}
+    $(".assistive-touch-close-btn").on(" click mouseup touchend",function(e){  //防止点击事件刺穿
         window.event? window.event.cancelBubble = true : e.stopPropagation();
         $(atClass).hide();
     });
@@ -70,9 +63,7 @@ var assistiveTouch = function(sets,clickFunc){                  //控件对象�
         var windowWidth = document.documentElement.offsetWidth||document.body.offsetWidth;
 
         $(this).attr("moving","false");
-
         var mousePos = mousePosition(e);
-
         if(Math.abs(mousePos.x-$(this).attr("origin-left"))<=5||Math.abs(mousePos.y-$(this).attr("origin-top"))<=5){
             $(this)[0].style.left = ($(this).attr("origin-left")-$(this).attr("offset-left"))+"px";
             $(this)[0].style.top = ($(this).attr("origin-top")-$(this).attr("offset-top"))+"px";
@@ -83,32 +74,44 @@ var assistiveTouch = function(sets,clickFunc){                  //控件对象�
             return;
         }
 
-        if($(this)[0].offsetLeft<0){
-            $(this)[0].style.left = 0;
-        }
-        if($(this)[0].offsetTop<0){
-            $(this)[0].style.top = 0;
-        }
-        if(($(this)[0].offsetTop+$(this)[0].offsetHeight)>windowHeight){
-            $(this)[0].style.top = (windowHeight - $(this)[0].offsetHeight)+"px";
-        }
-        if(($(this)[0].offsetLeft+$(this)[0].offsetWidth)>windowWidth){
-            $(this)[0].style.left = (windowWidth - $(this)[0].offsetWidth)+"px";
+        $(".assistive-touch-close-btn").removeClass("right").removeClass('top');
+        function sideOverflowFunc(t) {
+            if(t[0].offsetLeft<0){
+                t[0].style.left = 0;
+            }
+            if(t[0].offsetTop<0){
+                t[0].style.top = 0;
+                $(".assistive-touch-close-btn").addClass("top");
+            }
+            if((t[0].offsetTop+t[0].offsetHeight)>windowHeight){
+                t[0].style.top = (windowHeight - t[0].offsetHeight)+"px";
+            }
+            if((t[0].offsetLeft+t[0].offsetWidth)>windowWidth){
+                t[0].style.left = (windowWidth - t[0].offsetWidth)+"px";
+                $(".assistive-touch-close-btn").addClass("right");
+            }
         }
 
-        if (!autoSide)return;
-        if($(this)[0].offsetTop<windowHeight/10){
-            $(this).animate({top:"0px"},200);
-            return;
-        }else if($(this)[0].offsetTop+$(this)[0].offsetHeight>windowHeight/10*9){
-            $(this).animate({top:(windowHeight-$(this)[0].offsetHeight)+"px"},200);
-            return;
+        function autoSideFunc(t){
+            if (!autoSide)return;
+            if(t[0].offsetTop<windowHeight/10){
+                t.animate({top:"0px"},200);
+                $(".assistive-touch-close-btn").addClass("top");
+                return;
+            }else if(t[0].offsetTop+t[0].offsetHeight>windowHeight/10*9){
+                t.animate({top:(windowHeight-t[0].offsetHeight)+"px"},200);
+                return;
+            }
+            if(t[0].offsetLeft+(t[0].offsetWidth/2)<=windowWidth/2){
+                t.animate({left:"0px"},200);
+            }else {
+                t.animate({left:(windowWidth-t[0].offsetWidth)+"px"},200);
+                $(".assistive-touch-close-btn").addClass("right");
+            }
         }
-        if($(this)[0].offsetLeft+($(this)[0].offsetWidth/2)<=windowWidth/2){
-            $(this).animate({left:"0px"},200);
-        }else {
-            $(this).animate({left:(windowWidth-$(this)[0].offsetWidth)+"px"},200);
-        }
+
+        sideOverflowFunc($(this));
+        autoSideFunc($(this));
 
     });
     return $(atClass);

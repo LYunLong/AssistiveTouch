@@ -31,3 +31,11 @@
     background-color: rgba(200,200,200,.8);
     border-radius: 50px;
 }
+.assistive-touch-close-btn.right{
+    left: 0;
+    right: auto;
+}
+.assistive-touch-close-btn.top{
+    top: auto;
+    bottom: 0;
+}
